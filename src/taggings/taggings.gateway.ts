@@ -19,11 +19,6 @@ export class TaggingsGateway {
     return this.taggingsService.findAll(stream_id);
   }
 
-  @SubscribeMessage('findOneTagging')
-  findOne(@MessageBody() id: number) {
-    return this.taggingsService.findOne(id);
-  }
-
   @SubscribeMessage('updateTagging')
   update(@MessageBody() updateTaggingDto: UpdateTaggingDto) {
     return this.taggingsService.update(updateTaggingDto.id, updateTaggingDto);
@@ -40,6 +35,15 @@ export class TaggingsGateway {
     @MessageBody('limit') limit: number = 20,
   ) {
     return this.taggingsService.findLatest(stream_id, limit);
+  }
+
+  @SubscribeMessage('searchTagging')
+  async searchMessage(
+    @MessageBody('query') query: string,
+    @MessageBody('limit') limit: number = 7,
+    @MessageBody('stream_id') stream_id: string
+  ) {
+    return await this.taggingsService.searchTagging(query, limit, stream_id);
   }
 
 }

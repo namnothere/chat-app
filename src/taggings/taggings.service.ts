@@ -27,9 +27,9 @@ export class TaggingsService {
     return allMsg;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} message`;
-  }
+  // findOne(id: number) {
+  //   return `This action returns a #${id} message`;
+  // }
 
   async update(id: number, updateTaggingDto: UpdateTaggingDto) {
     await this.taggingRepository.update(id, updateTaggingDto);
@@ -52,10 +52,11 @@ export class TaggingsService {
     return res.reverse();
   }
   
-  async searchMessage(query: string, limit: number = 7) {
+  async searchTagging(query: string, limit: number, stream_id: string) {
     return await this.taggingRepository.find({
       where: {
-        content: Like(`%${query}%`)
+        content: Like(`%${query}%`),
+        stream_id: stream_id
       },
       order: {
         created_at: 'DESC'
